@@ -7,7 +7,7 @@ type Props = {};
 const LinkEntry: Variants = {
   hidden: { opacity: 0, x: 100 },
   visible: { opacity: 1, x: 0 },
-};
+}; // Framer Motion animation
 
 export default function Producer({}: Props) {
   return (
