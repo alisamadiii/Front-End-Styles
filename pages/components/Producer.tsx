@@ -18,7 +18,7 @@ export default function Producer({}: Props) {
       transition={{ duration: 1, type: "spring" }}
       href="https://twitter.com/Ali_Developer05"
       target="_blank"
-      className="fixed right-0 flex items-center gap-4 px-4 py-2 pr-12 text-black bg-white rounded-l-full bottom-4 hover:bg-[#00acee] hover:text-white duration-200 z-50"
+      className="fixed right-0 flex items-center gap-4 px-4 py-2 pr-12 text-black bg-white rounded-l-full bottom-4 hover:bg-[#00acee] hover:text-white duration-200"
     >
       <Image
         src="https://pbs.twimg.com/profile_images/1598932468492476416/tTkHaLF7_400x400.jpg"
