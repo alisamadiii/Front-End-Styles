@@ -1,19 +1,20 @@
 import { Inter } from "next/font/google";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
 import { LINKS } from "./contents/Data";
-import Link from "next/link";
 
+// Icons
 import { IoIosArrowDown } from "react-icons/io";
 import { AiOutlineLink } from "react-icons/ai";
 
 export default function Home() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isOpen2, setIsOpen2] = useState(false);
-  const [isOpen3, setIsOpen3] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // Design 1
+  const [isOpen2, setIsOpen2] = useState(false); // Design 2
+  const [isOpen3, setIsOpen3] = useState(false); // Design 3
 
   return (
     <main
