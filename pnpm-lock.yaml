@@ -15,7 +15,6 @@ specifiers:
   react-icons: ^4.8.0
   tailwindcss: 3.3.1
   typescript: 5.0.4
-  vercel-toast: ^1.7.1
 
 dependencies:
   '@types/node': 18.16.0
@@ -32,7 +31,6 @@ dependencies:
   react-icons: 4.8.0_react@18.2.0
   tailwindcss: 3.3.1_postcss@8.4.23
   typescript: 5.0.4
-  vercel-toast: 1.7.1
 
 packages:
 
@@ -2525,10 +2523,6 @@ packages:
 
   /util-deprecate/1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
-    dev: false
-
-  /vercel-toast/1.7.1:
-    resolution: {integrity: sha512-FHXPwQV5Flk1hMG0edCIXwP7t7+wq0pvtOCx7SP/0CU477qCTkhGqK9Nk7DjswhfU/SITia8numaxnvKYCRfng==}
     dev: false
 
   /which-boxed-primitive/1.0.2:
