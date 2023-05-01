@@ -1,152 +1,81 @@
 import { Inter } from "next/font/google";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
-import { LINKS } from "./contents/Data";
-
-// Icons
-import { IoIosArrowDown } from "react-icons/io";
-import { AiOutlineLink } from "react-icons/ai";
+import List from "./components/List";
 
 export default function Home() {
-  const [isOpen, setIsOpen] = useState(false); // Design 1
-  const [isOpen2, setIsOpen2] = useState(false); // Design 2
-  const [isOpen3, setIsOpen3] = useState(false); // Design 3
+  const [inputField, setInputField] = useState("");
+  const [todoList, setTodoList] = useState([
+    { id: 1, work: "Walking" },
+    { id: 2, work: "Reading" },
+  ]);
+
+  const randNum = Math.floor(Math.random() * 100000);
+
+  const addingFunction = (e: ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (inputField.length == 0) return;
+
+    setTodoList([{ id: randNum, work: inputField }, ...todoList]);
+    setInputField("");
+  };
+
+  const deletingFunction = (id: number) => {
+    const findingWork = todoList.find((list) => list.id == id);
+
+    if (findingWork) {
+      setTodoList(todoList.filter((list) => list.id !== id));
+    }
+
+    return;
+  };
 
   return (
     <main
-      className={`${inter.className} flex justify-center items-center h-screen gap-8`}
+      className={`${inter.className} flex flex-col justify-center items-center h-screen gap-8`}
     >
-      <div>
-        <motion.button
-          layout="position"
-          className="flex items-center justify-between p-2 bg-white rounded-md shadow-lg w-52"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <span>Menu</span>
-          <IoIosArrowDown
-            className={`duration-200 ${isOpen && "rotate-180"}`}
-          />
-        </motion.button>
-        <AnimatePresence>
-          {isOpen && (
-            <div className="flex flex-col p-2 mt-2 overflow-hidden bg-white rounded-md shadow-xl w-52">
-              {LINKS.map((link) => {
-                const Icon = link.icon;
-
-                return (
-                  <motion.div
-                    key={link.link}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: link.link * 0.05 }}
-                    exit={{ opacity: 0, x: 20 }}
-                  >
-                    <Link
-                      href={link.href}
-                      className="flex items-center gap-2 p-2 hover:bg-[#f2f2f2] duration-150 rounded-md"
-                    >
-                      <Icon />
-                      <span className="text-sm">{link.name}</span>
-                      <AiOutlineLink className="ml-auto " />
-                    </Link>
-                  </motion.div>
-                );
-              })}
-            </div>
-          )}
-        </AnimatePresence>
-      </div>
-
-      <div>
-        <motion.button
-          layout="position"
-          className="flex items-center justify-between p-2 bg-white rounded-md shadow-lg w-52"
-          onClick={() => setIsOpen2(!isOpen2)}
-        >
-          <span>Menu</span>
-          <IoIosArrowDown
-            className={`duration-200 ${isOpen2 && "rotate-180"}`}
-          />
-        </motion.button>
-        <AnimatePresence>
-          {isOpen2 && (
-            <div className="absolute flex flex-col p-2 mt-2 bg-white rounded-md shadow-xl w-52">
-              {LINKS.map((link) => {
-                const Icon = link.icon;
-
-                return (
-                  <motion.div
-                    key={link.link}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: link.link * 0.05 }}
-                    exit={{ opacity: 0, x: 20 }}
-                  >
-                    <Link
-                      href={link.href}
-                      className="flex items-center gap-2 p-2 hover:bg-[#f2f2f2] duration-150 rounded-md"
-                    >
-                      <Icon />
-                      <span className="text-sm">{link.name}</span>
-                      <AiOutlineLink className="ml-auto " />
-                    </Link>
-                  </motion.div>
-                );
-              })}
-            </div>
-          )}
-        </AnimatePresence>
-      </div>
-
-      <div>
-        <motion.button
-          layout="position"
-          className="flex items-center justify-between p-2 bg-white rounded-md shadow-lg w-52"
-          onClick={() => setIsOpen3(!isOpen3)}
-        >
-          <span>Menu</span>
-          <IoIosArrowDown
-            className={`duration-200 ${isOpen3 && "rotate-180"}`}
-          />
-        </motion.button>
-        <AnimatePresence>
-          {isOpen3 && (
+      <form onSubmit={addingFunction}>
+        <input
+          type="text"
+          className="p-2 duration-200 border-2 rounded-md outline-none w-96 border-primary focus:shadow-input"
+          placeholder="add..."
+          value={inputField}
+          onChange={(e) => setInputField(e.target.value)}
+        />
+      </form>
+      <ul
+        className={`relative p-2 space-y-1 bg-white border rounded-md shadow-lg w-96 h-96 ${
+          todoList.length < 4 ? "overflow-hidden" : "overflow-y-auto"
+        }`}
+      >
+        {todoList.length !== 0 ? (
+          <AnimatePresence initial={false}>
+            {todoList.map((list) => (
+              <List
+                key={list.id}
+                list={list}
+                deletingFunction={deletingFunction}
+              />
+            ))}
+          </AnimatePresence>
+        ) : (
+          <AnimatePresence>
             <motion.div
-              initial={{ height: 0, padding: 0 }}
-              animate={{ height: "auto", padding: 8 }}
-              exit={{ height: 0, padding: 0 }}
-              className="flex flex-col px-2 mt-2 overflow-hidden bg-white rounded-md shadow-xl w-52"
+              initial={{ y: "-100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ duration: 0.3 }}
+              className="absolute inset-0 flex items-center justify-center w-full h-full text-3xl font-bold bg-white"
             >
-              {LINKS.map((link) => {
-                const Icon = link.icon;
-
-                return (
-                  <motion.div
-                    key={link.link}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: link.link * 0.05 }}
-                    exit={{ opacity: 0, x: 20 }}
-                  >
-                    <Link
-                      href={link.href}
-                      className="flex items-center gap-2 p-2 hover:bg-[#f2f2f2] duration-150 rounded-md"
-                    >
-                      <Icon />
-                      <span className="text-sm">{link.name}</span>
-                      <AiOutlineLink className="ml-auto " />
-                    </Link>
-                  </motion.div>
-                );
-              })}
+              Keep Adding ☝️
             </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+          </AnimatePresence>
+        )}
+      </ul>
     </main>
   );
 }
