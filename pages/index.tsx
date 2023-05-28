@@ -1,81 +1,117 @@
 import { Inter } from "next/font/google";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Button from "./components/Button";
 
 const inter = Inter({ subsets: ["latin"] });
 
-import List from "./components/List";
-
 export default function Home() {
-  const [inputField, setInputField] = useState("");
-  const [todoList, setTodoList] = useState([
-    { id: 1, work: "Walking" },
-    { id: 2, work: "Reading" },
-  ]);
-
-  const randNum = Math.floor(Math.random() * 100000);
-
-  const addingFunction = (e: ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (inputField.length == 0) return;
-
-    setTodoList([{ id: randNum, work: inputField }, ...todoList]);
-    setInputField("");
-  };
-
-  const deletingFunction = (id: number) => {
-    const findingWork = todoList.find((list) => list.id == id);
-
-    if (findingWork) {
-      setTodoList(todoList.filter((list) => list.id !== id));
-    }
-
-    return;
-  };
+  const [squares, setSquares] = useState(3);
+  const [flexDirection, setflexDirection] = useState("flex-row");
+  const [justifyContent, setJustifyContent] = useState("justify-start");
+  const [alignItems, setAlignItems] = useState("items-start");
+  const [flexGrow, setFlexGrow] = useState("grow-0");
 
   return (
     <main
-      className={`${inter.className} flex flex-col justify-center items-center h-screen gap-8`}
+      className={`${inter.className} flex flex-col items-center gap-8 px-4 mt-24 pb-12`}
     >
-      <form onSubmit={addingFunction}>
+      <div className="absolute h-24 -translate-y-10 bg-primary/30 w-96 -z-50 blur-3xl"></div>
+      <div>
         <input
-          type="text"
-          className="p-2 duration-200 border-2 rounded-md outline-none w-96 border-primary focus:shadow-input"
-          placeholder="add..."
-          value={inputField}
-          onChange={(e) => setInputField(e.target.value)}
+          type="number"
+          value={squares}
+          min={3}
+          max={10}
+          onChange={(e) => setSquares(Number(e.target.value))}
+          className="p-1 px-3 duration-200 border-2 rounded-md outline-none focus:shadow-input"
         />
-      </form>
-      <ul
-        className={`relative p-2 space-y-1 bg-white border rounded-md shadow-lg w-96 h-96 ${
-          todoList.length < 4 ? "overflow-hidden" : "overflow-y-auto"
-        }`}
+      </div>
+      <div
+        className={`w-full max-w-[900px] mx-auto border-2 h-56 rounded-lg bg-white shadow-md overflow-hidden flex ${flexDirection} ${justifyContent} ${alignItems} gap-2`}
       >
-        {todoList.length !== 0 ? (
-          <AnimatePresence initial={false}>
-            {todoList.map((list) => (
-              <List
-                key={list.id}
-                list={list}
-                deletingFunction={deletingFunction}
-              />
-            ))}
-          </AnimatePresence>
-        ) : (
-          <AnimatePresence>
+        <AnimatePresence initial={false}>
+          {[...Array(squares)].map((_, index) => (
             <motion.div
-              initial={{ y: "-100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "100%" }}
-              transition={{ duration: 0.3 }}
-              className="absolute inset-0 flex items-center justify-center w-full h-full text-3xl font-bold bg-white"
-            >
-              Keep Adding ☝️
-            </motion.div>
-          </AnimatePresence>
-        )}
-      </ul>
+              initial={{ opacity: 0, y: -30 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              exit={{ y: -30, opacity: 0, transition: { duration: 0.2 } }}
+              transition={{ duration: 0.1, type: "spring", damping: 15 }}
+              layout
+              className={`w-12 h-12 bg-primary rounded-xl ${flexGrow}`}
+              key={index}
+            />
+          ))}
+        </AnimatePresence>
+      </div>
+      <div className="flex flex-wrap justify-center w-full gap-4 py-4 bg-gray-500/10 rounded-t-xl">
+        <Button value="grow" position={flexGrow} setPosition={setFlexGrow} />
+        <Button value="grow-0" position={flexGrow} setPosition={setFlexGrow} />
+      </div>
+      <div className="flex flex-wrap justify-center gap-4">
+        <Button
+          value="flex-row"
+          position={flexDirection}
+          setPosition={setflexDirection}
+        />
+        <Button
+          value="flex-col"
+          position={flexDirection}
+          setPosition={setflexDirection}
+        />
+      </div>
+      <div className="flex flex-wrap justify-center w-full gap-4 py-4 bg-gray-500/10">
+        <Button
+          value="justify-start"
+          position={justifyContent}
+          setPosition={setJustifyContent}
+        />
+        <Button
+          value="justify-end"
+          position={justifyContent}
+          setPosition={setJustifyContent}
+        />
+        <Button
+          value="justify-between"
+          position={justifyContent}
+          setPosition={setJustifyContent}
+        />
+        <Button
+          value="justify-center"
+          position={justifyContent}
+          setPosition={setJustifyContent}
+        />
+        <Button
+          value="justify-evenly"
+          position={justifyContent}
+          setPosition={setJustifyContent}
+        />
+        <Button
+          value="justify-around"
+          position={justifyContent}
+          setPosition={setJustifyContent}
+        />
+      </div>
+      <div className="flex flex-wrap justify-center gap-4">
+        <Button
+          value="items-start"
+          position={alignItems}
+          setPosition={setAlignItems}
+        />
+        <Button
+          value="items-end"
+          position={alignItems}
+          setPosition={setAlignItems}
+        />
+        <Button
+          value="items-center"
+          position={alignItems}
+          setPosition={setAlignItems}
+        />
+      </div>
     </main>
   );
 }
