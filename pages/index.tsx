@@ -1,76 +1,60 @@
 import { Inter } from "next/font/google";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
 
 const inter = Inter({ subsets: ["latin"] });
 
-import {
-  AiFillHome,
-  AiOutlineFolderView,
-  AiFillHighlight,
-} from "react-icons/ai";
-import { BsViewList } from "react-icons/bs";
-import { HiViewGrid } from "react-icons/hi";
-
-const INITIAL_VALUE = [
-  {
-    id: 1,
-    icon: AiFillHome,
-  },
-  {
-    id: 2,
-    icon: BsViewList,
-  },
-  {
-    id: 3,
-    icon: HiViewGrid,
-  },
-  {
-    id: 4,
-    icon: AiOutlineFolderView,
-  },
-  {
-    id: 5,
-    icon: AiFillHighlight,
-  },
-];
-
 export default function Home() {
-  const [active, setActive] = useState(1);
-
   return (
     <main
       className={`${inter.className} flex flex-col items-center gap-8 px-4 mt-24 pb-12`}
     >
-      <div className="absolute h-24 -translate-y-10 bg-primary/30 w-96 -z-50 blur-3xl"></div>
-      <nav className="fixed top-0 left-0 flex flex-col items-center w-16 h-full py-4 pl-2 text-2xl text-white bg-primary">
-        {INITIAL_VALUE.map((value) => {
-          const Icon = value.icon;
-          return (
-            <div
-              key={value.id}
-              className={`relative isolate cursor-pointer w-full h-12 flex items-center justify-center ${
-                active == value.id ? "text-primary delay-200" : ""
-              }`}
-              onClick={() => setActive(value.id)}
-            >
-              <Icon />
-              {active == value.id && (
-                <motion.div
-                  layoutId="nav-links"
-                  className="absolute inset-0 bg-white rounded-l-lg -z-10"
-                >
-                  <motion.div
-                    transition={{ duration: 2 }}
-                    className="relative w-full h-2 -translate-y-full bg-white before:absolute before:inset-0 before:bg-primary before:rounded-br-lg"
-                  />
-                  <motion.div className="absolute bottom-0 w-full h-2 translate-y-full bg-white before:absolute before:inset-0 before:bg-primary before:rounded-tr-lg" />
-                </motion.div>
-              )}
-            </div>
-          );
-        })}
-      </nav>
+      <section className="flex w-full max-w-[500px] gap-1 rounded-xl overflow-hidden">
+        <div className="group relative flex-1 h-96 hover:flex-[3] duration-200">
+          <Image
+            src="https://images.unsplash.com/photo-1603582853461-e8fcdd95575d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YXR1cmV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
+            width={300}
+            height={400}
+            alt=""
+            className="object-cover w-full h-full"
+          />
+          <div className="absolute bottom-0 left-0 flex flex-col justify-end w-full p-3 overflow-hidden text-white duration-200 translate-y-full h-1/2 bg-gradient-to-b from-transparent to-black group-hover:translate-y-0 group-hover:delay-200">
+            <h2 className="font-bold">Lorem Ipsum</h2>
+            <p className="text-sm opacity-80">
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+              Architecto dolore ipsum commodi at explicabo dicta?
+            </p>
+          </div>
+        </div>
+        <div className="flex-1 h-96 hover:flex-[3] duration-200">
+          <Image
+            src="https://images.unsplash.com/photo-1657061681431-293af17cdddd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YXR1cmV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
+            width={300}
+            height={400}
+            alt=""
+            className="object-cover w-full h-full"
+          />
+        </div>
+        <div className="flex-1 h-96 hover:flex-[3] duration-200">
+          <Image
+            src="https://images.unsplash.com/photo-1661778002849-8873d291ffbd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fGF0dXJlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
+            width={300}
+            height={400}
+            alt=""
+            className="object-cover w-full h-full"
+          />
+        </div>
+        <div className="flex-1 h-96 hover:flex-[3] duration-200">
+          <Image
+            src="https://images.unsplash.com/photo-1609354338579-3b21838d0cf6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8YXR1cmV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
+            width={300}
+            height={400}
+            alt=""
+            className="object-cover w-full h-full"
+          />
+        </div>
+      </section>
     </main>
   );
 }
